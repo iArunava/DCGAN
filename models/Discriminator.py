@@ -30,31 +30,35 @@ class Discriminator(nn.Module):
         
         self.conv1 = nn.Conv2d(in_channels=3,
                                out_channels=self.c1_channels,
-                               kernel_size=3,
-                               stride=2)
+                               kernel_size=2,
+                               stride=2,
+                               padding=0)
         
         self.bnorm1 = nn.BatchNorm2d(num_features=self.c1_channels)
         
         self.conv2 = nn.Conv2d(in_channels=self.c1_channels,
                                out_channels=self.c2_channels,
-                               kernel_size=3,
-                               stride=2)
+                               kernel_size=2,
+                               stride=2,
+                               padding=0)
         
         self.bnorm2 = nn.BatchNorm2d(num_features=self.c2_channels)
         
         self.conv3 = nn.Conv2d(in_channels=self.c2_channels,
                                out_channels=self.c3_channels,
-                               kernel_size=3,
-                               stride=2)
+                               kernel_size=2,
+                               stride=2,
+                               padding=0)
         
         self.bnorm3 = nn.BatchNorm2d(num_features=self.c3_channels)
         
         self.conv4 = nn.Conv2d(in_channels=self.c3_channels,
                                out_channels=self.c4_channels,
-                               kernel_size=3,
-                               stride=2)
+                               kernel_size=2,
+                               stride=2,
+                               padding=0)
         
-        #self.fc1 = nn.Linear()
+        self.fc1 = nn.Linear(8192, 1)
         
         self.lrelu = nn.LeakyReLU(negative_slope=0.2)
         self.sigmoid = nn.Sigmoid()
@@ -79,6 +83,10 @@ class Discriminator(nn.Module):
         x = self.bnorm1(self.lrelu(self.conv1(img)))
         x = self.bnorm1(self.lrelu(self.conv2(img)))
         x = self.bnorm1(self.lrelu(self.conv3(img)))
-        out = self.sigmoid(self.conv4(img))
+        x = self.bnorm1(self.lrelu(self.conv4(img)))
+        
+        x = x.flatten()
+        
+        out = self.sigmoid(self.fc1(x))
         
         return out
