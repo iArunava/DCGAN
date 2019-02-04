@@ -9,97 +9,90 @@
 #								   #
 ####################################################################
 
-# Discriminator
-
-# Probably a VGG16 or VGG19 for Simple Image Classification pretrained on ImageNet
-
-class Discriminator(nn.Module):
-    
-    def __init__(self, c1_channels=64, c2_channels=128, c3_channels=256,
-                 c4_channels=512):
+class Generator(nn.Module):
+    def __init__(self, zin_channels, ct1_channels=1024, ct2_channels=512,
+                 ct3_channels=256, ct4_channels=128):
+        
         '''
-        The constructor method for the Discriminator class
+        The contructor class for the Generator
         
         Arguments:
-        - c1_channels : the number of output channels from the
-                        first Convolutional Layer [Default - 128]
+        - zin_channels: ###
+        
+        - ct1_channels: The number of output channels for the
+                        first ConvTranspose Layer. [Default - 1024]
+        
+        - ct2_channels: The number of putput channels for the
+                        second ConvTranspose Layer. [Default - 512]
                         
-        - c2_channels : the number of output channels from the
-                        second Convolutional Layer [Default - 256]
+        - ct3_channels: The number of putput channels for the
+                        third ConvTranspose Layer. [Default - 256]
                         
-        - c3_channels : the number of output channels from the
-                        third Convolutional Layer [Default - 512]
+        - ct4_channels: The number of putput channels for the
+                        fourth ConvTranspose Layer. [Default - 128]
                         
         '''
         super().__init__()
         
         # Define the class variables
-        self.c1_channels = c1_channels
-        self.c2_channels = c2_channels
-        self.c3_channels = c3_channels
-        self.c4_channels = c4_channels
+        self.zin_channels = zin_channels
+        self.ct1_channels = ct1_channels
+        self.ct2_channels = ct2_channels
+        self.ct3_channels = ct3_channels
+        self.ct4_channels = ct4_channels
         
-        self.conv1 = nn.Conv2d(in_channels=3,
-                               out_channels=self.c1_channels,
-                               kernel_size=2,
-                               stride=2,
-                               padding=0)
+        self.convt_1 = nn.ConvTranspose2d(in_channels=self.zin_channels,
+                                          out_channels=self.ct1_channels,
+                                          kernel_size=1,
+                                          stride=2)
         
-        self.bnorm1 = nn.BatchNorm2d(num_features=self.c1_channels)
+        self.bnorm1 = nn.BatchNorm2d(self.ct1_channels)
         
-        self.conv2 = nn.Conv2d(in_channels=self.c1_channels,
-                               out_channels=self.c2_channels,
-                               kernel_size=2,
-                               stride=2,
-                               padding=0)
+        self.convt_2 = nn.ConvTranspose2d(in_channels=self.ct1_channels,
+                                          out_channels=self.ct2_channels,
+                                          kernel_size=5,
+                                          stride=2)
         
-        self.bnorm2 = nn.BatchNorm2d(num_features=self.c2_channels)
+        self.bnorm2 = nn.BatchNorm2d(self.ct2_channels)
         
-        self.conv3 = nn.Conv2d(in_channels=self.c2_channels,
-                               out_channels=self.c3_channels,
-                               kernel_size=2,
-                               stride=2,
-                               padding=0)
+        self.convt_3 = nn.ConvTranspose2d(in_channels=self.ct2_channels,
+                                          out_channels=self.ct3_channels,
+                                          kernel_size=5,
+                                          stride=2)
         
-        self.bnorm3 = nn.BatchNorm2d(num_features=self.c3_channels)
+        self.bnorm3 = nn.BatchNorm2d(self.ct3_channels)
         
-        self.conv4 = nn.Conv2d(in_channels=self.c3_channels,
-                               out_channels=self.c4_channels,
-                               kernel_size=2,
-                               stride=2,
-                               padding=0)
+        self.convt_4 = nn.ConvTranspose2d(in_channels=self.ct3_channels,
+                                          out_channels=self.ct4_channels,
+                                          kernel_size=5,
+                                          stride=2)
         
-        self.bnorm3 = nn.BatchNorm2d(num_features=self.c4_channels)
+        self.bnorm4 = nn.BatchNorm2d(self.ct4_channels)
         
-        self.fc1 = nn.Linear(8192, 1)
+        self.convt_5 = nn.ConvTranspose2d(in_channels=self.ct4_channels,
+                                          out_channels=3,
+                                          kernel_size=5,
+                                          stride=2)
         
-        self.lrelu = nn.LeakyReLU(negative_slope=0.2)
-        self.sigmoid = nn.Sigmoid()
+        self.relu = nn.ReLU()
+        self.tanh = nn.Tanh()
         
-        
-    def forward(self, img):
+    def forward(self, z):
         '''
-        The method for the forward pass in the network
+        The method for the forward pass for the Generator
         
-        Arguments;
-        - img : a torch.tensor that is of the shape N x C x H x W
-                where, N - the batch_size
-                       C - the number of channels
-                       H - the height
-                       W - the width
-       
-       Returns:
-       - out : the output of the Discriminator 
-               whether the passed image is real /fake
+        Arguments:
+        - z : the input random uniform vector sampled from uniform distribution
+        
+        Returns:
+        - out : The output of the forward pass through the network
         '''
+        # TODO: Reshape z
         
-        x = self.lrelu(self.conv1(img))
-        x = self.bnorm2(self.lrelu(self.conv2(x)))
-        x = self.bnorm3(self.lrelu(self.conv3(x)))
-        x = self.bnorm4(self.lrelu(self.conv4(x)))
-        
-        x = x.flatten()
-        
-        out = self.sigmoid(self.fc1(x))
+        x = self.relu(self.bnorm1(self.convt_1(z)))
+        x = self.relu(self.bnorm2(self.convt_2(x)))
+        x = self.relu(self.bnorm3(self.convt_3(x)))
+        x = self.relu(self.bnorm4(self.convt_4(x)))
+        out = self.tanh(self.convt_5(x))
         
         return out
