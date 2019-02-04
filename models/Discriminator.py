@@ -58,6 +58,8 @@ class Discriminator(nn.Module):
                                stride=2,
                                padding=0)
         
+        self.bnorm3 = nn.BatchNorm2d(num_features=self.c4_channels)
+        
         self.fc1 = nn.Linear(8192, 1)
         
         self.lrelu = nn.LeakyReLU(negative_slope=0.2)
@@ -80,10 +82,10 @@ class Discriminator(nn.Module):
                whether the passed image is real /fake
         '''
         
-        x = self.bnorm1(self.lrelu(self.conv1(img)))
-        x = self.bnorm1(self.lrelu(self.conv2(img)))
-        x = self.bnorm1(self.lrelu(self.conv3(img)))
-        x = self.bnorm1(self.lrelu(self.conv4(img)))
+        x = self.lrelu(self.conv1(img))
+        x = self.bnorm2(self.lrelu(self.conv2(x)))
+        x = self.bnorm3(self.lrelu(self.conv3(x)))
+        x = self.bnorm4(self.lrelu(self.conv4(x)))
         
         x = x.flatten()
         

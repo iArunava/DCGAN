@@ -10,7 +10,7 @@
 ####################################################################
 
 class Generator(nn.Module):
-    def __init__(self, zin_channels, ct1_channels=1024, ct2_channels=512,
+    def __init__(self, zin_channels=64, ct1_channels=1024, ct2_channels=512,
                  ct3_channels=256, ct4_channels=128):
         
         '''
@@ -46,34 +46,35 @@ class Generator(nn.Module):
                                           kernel_size=1,
                                           stride=2)
         
-        self.bnorm1 = nn.BatchNorm2d(self.ct1_channels)
+        self.bnorm1 = nn.BatchNorm2d(num_features=self.ct1_channels)
         
         self.convt_2 = nn.ConvTranspose2d(in_channels=self.ct1_channels,
                                           out_channels=self.ct2_channels,
                                           kernel_size=5,
                                           stride=2)
         
-        self.bnorm2 = nn.BatchNorm2d(self.ct2_channels)
+        self.bnorm2 = nn.BatchNorm2d(num_features=self.ct2_channels)
         
         self.convt_3 = nn.ConvTranspose2d(in_channels=self.ct2_channels,
                                           out_channels=self.ct3_channels,
                                           kernel_size=5,
                                           stride=2)
         
-        self.bnorm3 = nn.BatchNorm2d(self.ct3_channels)
+        self.bnorm3 = nn.BatchNorm2d(num_features=self.ct3_channels)
         
         self.convt_4 = nn.ConvTranspose2d(in_channels=self.ct3_channels,
                                           out_channels=self.ct4_channels,
                                           kernel_size=5,
                                           stride=2)
         
-        self.bnorm4 = nn.BatchNorm2d(self.ct4_channels)
+        self.bnorm4 = nn.BatchNorm2d(num_features=self.ct4_channels)
         
         self.convt_5 = nn.ConvTranspose2d(in_channels=self.ct4_channels,
                                           out_channels=3,
                                           kernel_size=5,
                                           stride=2)
         
+        self.fc1 = nn.Linear(z_size, 4 * 4 * 64)
         self.relu = nn.ReLU()
         self.tanh = nn.Tanh()
         
@@ -87,7 +88,10 @@ class Generator(nn.Module):
         Returns:
         - out : The output of the forward pass through the network
         '''
-        # TODO: Reshape z
+        
+        # Project the input z and reshape
+        z = self.fc1(z)
+        z = torch.reshape(z, (-1, 64, 4, 4))
         
         x = self.relu(self.bnorm1(self.convt_1(z)))
         x = self.relu(self.bnorm2(self.convt_2(x)))
