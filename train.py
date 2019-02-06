@@ -10,6 +10,8 @@ def train(FLAGS):
     glr = FLAGS.glr
     beta1 = FLAGS.beta1
     beta2 = FLAGS.beta2
+    zsize = FLAGS.zsize
+    batch_size = FLAGS.batch_size
 
     # Optimizers
 
