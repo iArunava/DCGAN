@@ -1,10 +1,25 @@
+from Loss import *
 
 def train(FLAGS):
-    # Train loop
+    # Define the hyperparameters
+    p_every = FLAGS.p_every
+    t_every = FLAGS.t_every
+    e_every = FLAGS.e_every
+    epochs = FLAGS.epochs
+    dlr = FLAGS.dlr
+    glr = FLAGS.glr
+    beta1 = FLAGS.beta1
+    beta2 = FLAGS.beta2
 
+    # Optimizers
+
+    d_opt = optim.Adam(D.parameters(), lr=dlr, betas=(beta1, beta2))
+    g_opt = optim.Adam(G.parameters(), lr=glr, betas=(beta1, beta2))
+
+    # Train loop
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    p_every = 1
+    p_every = 80
     t_every = 1
     e_every = 1
     epochs = 100
@@ -24,7 +39,7 @@ def train(FLAGS):
         for batch_i, real_images in trainloader:
 
             # Scaling image to be between -1 and 1
-            real_images = (real_images * 2) - 1
+            real_images = scale_images(real_images)
 
             real_images = real_images.to(device)
 

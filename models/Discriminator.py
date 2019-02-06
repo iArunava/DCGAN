@@ -2,6 +2,10 @@
 
 # Probably a VGG16 or VGG19 for Simple Image Classification pretrained on ImageNet
 
+# Discriminator
+
+# Probably a VGG16 or VGG19 for Simple Image Classification pretrained on ImageNet
+
 class Discriminator(nn.Module):
     
     def __init__(self, c1_channels=64, c2_channels=128, c3_channels=256,
