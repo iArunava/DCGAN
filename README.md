@@ -7,7 +7,7 @@ of the pretrained models, you can also, see amazing results, right in your brows
 
 ## How to use
 
-0. Go to the Colab Notebook: [Upcoming]
+0. Go to the Colab Notebook: [DCGAN Colab](https://colab.research.google.com/github/iArunava/DCGAN/blob/master/DCGAN.ipynb)
 
 ---
 
