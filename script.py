@@ -338,7 +338,7 @@ for e in range(epochs):
         
         d_fake = D(fake_images.detach())
         
-        f_loss = criterion(d_fake.squeeze(), label)
+        f_loss = criterion(d_fake, label)
         #f_loss = fake_loss(d_fake)
         f_loss.backward()
 
@@ -359,11 +359,11 @@ for e in range(epochs):
         #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
         #z = torch.from_numpy(z).float().cuda()
         #fake_images = G(z)
-        d_fake = D(fake_images.detach())
+        d_fake2 = D(fake_images)
         
         #label = torch.full((batch_size,), real_label, device=device)
         
-        g_loss = criterion(d_fake.squeeze(), label)
+        g_loss = criterion(d_fake2, label)
         #g_loss = real_loss(d_fake)
         g_loss.backward()
         
