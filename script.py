@@ -306,7 +306,7 @@ for e in range(epochs):
     for batch_i, (real_images, _) in enumerate(trainloader):
         
         # Scaling image to be between -1 and 1
-        real_images = scale(real_images)
+        #real_images = scale(real_images)
         
         real_images = real_images.to(device)
         
