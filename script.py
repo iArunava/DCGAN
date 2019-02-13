@@ -328,7 +328,7 @@ for e in range(epochs):
         #r_loss.backward()
 
 
-        #z = torch.randn(batch_size, z_size, 1, 1, device=device)
+        z = torch.randn(batch_size, z_size, 1, 1, device=device)
         #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
         #z = torch.from_numpy(z).float().cuda()
 
