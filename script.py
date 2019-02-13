@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 import torchvision.utils as utils
 
 cudnn.benchmark = True
+print ('[INFO]Set cudnn to True.')
 
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
