@@ -354,7 +354,7 @@ for e in range(epochs):
         #G.zero_grad()
         g_opt.zero_grad()
         
-        #label.fill_(real_label)
+        label.fill_(real_label)
         #z = torch.randn(batch_size, z_size, 1, 1, device=device)
         #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
         #z = torch.from_numpy(z).float().cuda()
