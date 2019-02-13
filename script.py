@@ -322,28 +322,28 @@ for e in range(epochs):
         #print (real_images.shape)
         d_real = D(real_images)
         
-        #label = torch.full((batch_size,), real_label, device=device)
-        #r_loss = criterion(d_real.squeeze(), label)
-        r_loss = real_loss(d_real)
+        label = torch.full((batch_size,), real_label, device=device)
+        r_loss = criterion(d_real.squeeze(), label)
+        #r_loss = real_loss(d_real)
         #r_loss.backward()
 
 
         #z = torch.randn(batch_size, z_size, 1, 1, device=device)
-        z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
-        z = torch.from_numpy(z).float().cuda()
+        #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
+        #z = torch.from_numpy(z).float().cuda()
 
         fake_images = G(z)
         
-        #label.fill_(fake_label)
+        label.fill_(fake_label)
         
         d_fake = D(fake_images.detach())
         
-        #f_loss = criterion(d_fake.squeeze(), label)
-        f_loss = fake_loss(d_fake)
-        #f_loss.backward()
+        f_loss = criterion(d_fake.squeeze(), label)
+        #f_loss = fake_loss(d_fake)
+        f_loss.backward()
 
         d_loss = r_loss + f_loss
-        d_loss.backward()
+        #d_loss.backward()
 
         #td_loss += d_loss.item()
 
@@ -356,15 +356,15 @@ for e in range(epochs):
         
         #label.fill_(real_label)
         #z = torch.randn(batch_size, z_size, 1, 1, device=device)
-        z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
-        z = torch.from_numpy(z).float().cuda()
-        fake_images = G(z)
+        #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
+        #z = torch.from_numpy(z).float().cuda()
+        #fake_images = G(z)
         d_fake = D(fake_images.detach())
         
         #label = torch.full((batch_size,), real_label, device=device)
         
-        #g_loss = criterion(d_fake.squeeze(), label)
-        g_loss = real_loss(d_fake)
+        g_loss = criterion(d_fake.squeeze(), label)
+        #g_loss = real_loss(d_fake)
         g_loss.backward()
         
         #tg_loss += g_loss.item()
