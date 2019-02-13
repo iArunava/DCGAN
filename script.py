@@ -320,14 +320,14 @@ for e in range(epochs):
 
         #### Train the Discriminator ####
 
-        d_opt.zero_grad()
-        #D.zero_grad()
+        #d_opt.zero_grad()
+        D.zero_grad()
 
         #print (real_images.shape)
         d_real = D(real_images)
         
         label = torch.full((batch_size,), real_label, device=device)
-        r_loss = criterion(d_real.squeeze(), label)
+        r_loss = criterion(d_real, label)
         #r_loss = real_loss(d_real)
         #r_loss.backward()
 
@@ -355,8 +355,8 @@ for e in range(epochs):
 
 
         #### Train the Generator ####
-        #G.zero_grad()
-        g_opt.zero_grad()
+        G.zero_grad()
+        #g_opt.zero_grad()
         
         label.fill_(real_label)
         #z = torch.randn(batch_size, z_size, 1, 1, device=device)
