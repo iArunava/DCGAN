@@ -142,7 +142,7 @@ class Discriminator(nn.Module):
         x = self.lrelu(self.bnorm4(self.conv4(x)))
         x = self.conv5(x)
         
-        #x = self.sigmoid(x)
+        x = self.sigmoid(x)
         
         return x.view(-1, 1).squeeze()
       
