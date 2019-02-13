@@ -15,7 +15,7 @@ print ('[INFO]Set cudnn to True.')
 
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
-batch_size = 128
+batch_size = 64
 z_size = 100
 
 transform = transforms.Compose([transforms.Resize(64),
@@ -148,7 +148,7 @@ class Discriminator(nn.Module):
         
         x = self.sigmoid(x)
         
-        return x.view(-1, 1).squeeze()
+        return x.view(-1, 1).squeeze(1)
       
     def out_shape(self, inp_dim, kernel_size=4, padding=1, stride=2):
         return ((inp_dim - kernel_size + (2 * padding)) // stride) + 1
@@ -363,7 +363,7 @@ for e in range(epochs):
         #z = np.random.uniform(-1, 1, size=(batch_size, z_size, 1, 1))
         #z = torch.from_numpy(z).float().cuda()
         #fake_images = G(z)
-        d_fake2 = D(fake_images)
+        d_fake2 = D(fake_images.detach())
         
         #label = torch.full((batch_size,), real_label, device=device)
         
