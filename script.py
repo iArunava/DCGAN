@@ -2,12 +2,15 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+import torch.backends.cudnn as cudnn
 import numpy as np
 import matplotlib.pyplot as plt
 from torchvision import datasets
 from torchvision.transforms import transforms
 from torch.utils.data import DataLoader
 import torchvision.utils as utils
+
+cudnn.benchmark = True
 
 device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
