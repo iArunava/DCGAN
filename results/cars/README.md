@@ -5,6 +5,9 @@ The dataset can be found here: https://ai.stanford.edu/~jkrause/cars/car_dataset
 
 ## Final Generated images after x epochs
 
+![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
+
+
 ## Images generated in the way
 
 ![Epoch 10](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_9.png)
@@ -18,3 +21,5 @@ The dataset can be found here: https://ai.stanford.edu/~jkrause/cars/car_dataset
 ![Epoch 70](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_70.png)
 
 ![Epoch 70](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_74.png)
+
+![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
