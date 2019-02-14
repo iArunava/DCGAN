@@ -3,7 +3,7 @@
 
 The dataset can be found here: https://ai.stanford.edu/~jkrause/cars/car_dataset.html
 
-## Final Generated images after x epochs
+## Final Generated images after 100 epochs
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
 
