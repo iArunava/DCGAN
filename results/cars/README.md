@@ -12,3 +12,5 @@ The dataset can be found here: https://ai.stanford.edu/~jkrause/cars/car_dataset
 ![Epoch 20](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_19.png)
 
 ![Epoch 25](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_24%20(1).png?raw=true)
+
+![Epoch 20](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_11.png)
