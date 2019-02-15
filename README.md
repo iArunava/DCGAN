@@ -25,7 +25,7 @@ cd DCGAN/
 
 ![dcgan](https://user-images.githubusercontent.com/26242097/52493917-aca3b280-2bf2-11e9-95a5-aa68704f1d8e.png)
 
-2. CIFAR100 
+2. CIFAR10 
 
 3. Stanford Dogs Dataset
 
@@ -34,6 +34,10 @@ cd DCGAN/
 5. Stanford Cars Dataset
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
+
+6. Oxford Flowers Dataset
+
+![Epoch 200](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_99%20(2).png)
 
 ## Pretrained models
 
