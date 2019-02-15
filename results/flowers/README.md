@@ -25,11 +25,7 @@ The dataset can be found here: http://www.robots.ox.ac.uk/~vgg/data/flowers/102/
 
 ![Epoch 60](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_60.png)
 
-![Epoch 70](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_70.png)
-
-![Epoch 80](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_80.png)
-
-![Epoch 90](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_90.png)
+![Epoch 80](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_80%20(2).png)
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_99.png)
 
