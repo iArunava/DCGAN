@@ -7,6 +7,9 @@ The dataset can be found here: https://ai.stanford.edu/~jkrause/cars/car_dataset
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
 
+## Pretrained models
+
+1. Generator trained on the Stanford Cars Dataset for 100 epochs: [100 epoch trained Generator](http://bit.ly/g-100-cars)
 
 ## Images generated in the way
 
