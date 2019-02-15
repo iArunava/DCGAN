@@ -35,6 +35,11 @@ cd DCGAN/
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
 
+## Pretrained models
+
+1. Generator trained on the Stanford Cars Dataset for 100 epochs: [100 epoch trained Generator](http://bit.ly/g-100-cars)
+
+
 ## License
 
 The code in this repository is made available for free. Feel free to fork and go crazy.
