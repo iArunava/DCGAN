@@ -9,3 +9,14 @@ def view_samples(epochs, samples):
         ax.yaxis.set_visible(False)
         im = ax.imshow(img.cpu().reshape((28, 28)), cmap='Greys_r')
     plt.show()
+
+    
+def view_one_random(gen):
+    noise = torch.randn(1, 100, 1, 1, device=device)
+    out = gen(noise)
+    out = out.detach().cpu().squeeze(0).transpose(0, 1).transpose(1, 2).numpy()
+    out = out * (0.5, 0.5, 0.5)
+    out += (0.5, 0.5, 0.5)
+    plt.axis('off')
+    plt.imshow(out)
+    plt.show()
