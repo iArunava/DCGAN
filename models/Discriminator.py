@@ -1,15 +1,18 @@
 # Discriminator
 
+# Discriminator
+
 # Probably a VGG16 or VGG19 for Simple Image Classification pretrained on ImageNet
 
 class Discriminator(nn.Module):
     
-    def __init__(self, c1_channels=64, c2_channels=128, c3_channels=256,
+    def __init__(self, inhw, c1_channels=64, c2_channels=128, c3_channels=256,
                  c4_channels=512, i_channels_in_2=True):
         '''
         The constructor method for the Discriminator class
         
         Arguments:
+        - inhw : The number of 
         - c1_channels : the number of output channels from the
                         first Convolutional Layer [Default - 128]
                         
@@ -71,9 +74,16 @@ class Discriminator(nn.Module):
         
         self.bnorm4 = nn.BatchNorm2d(num_features=self.c4_channels)
         
-        self.fc1 = nn.Linear(8192, 1)
+        self.conv5 = nn.Conv2d(in_channels=self.c4_channels,
+                               out_channels=1,
+                               kernel_size=4,
+                               padding=0,
+                               stride=1,
+                               bias=False)
         
         self.lrelu = nn.LeakyReLU(negative_slope=0.2)
+        
+        self.sigmoid = nn.Sigmoid()
         
         
     def forward(self, img):
@@ -97,17 +107,14 @@ class Discriminator(nn.Module):
         batch_size = img.shape[0]
         
         x = self.lrelu(self.conv1(img))
-        x = self.bnorm2(self.lrelu(self.conv2(x)))
-        x = self.bnorm3(self.lrelu(self.conv3(x)))
-        x = self.bnorm4(self.lrelu(self.conv4(x)))
+        x = self.lrelu(self.bnorm2(self.conv2(x)))
+        x = self.lrelu(self.bnorm3(self.conv3(x)))
+        x = self.lrelu(self.bnorm4(self.conv4(x)))
+        x = self.conv5(x)
         
-        #print (x.size())
+        x = self.sigmoid(x)
         
-        x = x.view(batch_size, -1)
-        #print (x.shape)
-        
-        #print (x.size())
-        
-        out = self.fc1(x)
-        
-        return out
+        return x.view(-1, 1).squeeze()
+      
+    def out_shape(self, inp_dim, kernel_size=4, padding=1, stride=2):
+        return ((inp_dim - kernel_size + (2 * padding)) // stride) + 1
