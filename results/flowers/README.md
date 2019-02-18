@@ -9,7 +9,7 @@ The dataset can be found here: http://www.robots.ox.ac.uk/~vgg/data/flowers/102/
 
 ## Pretrained models
 
-2. Generator trained on the Oxford Flowers Dataset for 200 epochs: [100 epoch trained Generator](https://drive.google.com/file/d/1b-kGxNB4j2ummU9hUE959ew-EL2mYJP7/view?usp=drivesdk)
+2. Generator trained on the Oxford Flowers Dataset for 300 epochs: [300 epoch trained Generator](https://drive.google.com/file/d/1b-kGxNB4j2ummU9hUE959ew-EL2mYJP7/view?usp=drivesdk)
 
 ## Images generated in the way
 
