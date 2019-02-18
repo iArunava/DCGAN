@@ -13,7 +13,9 @@ def train(FLAGS):
     beta2 = FLAGS.beta2
     zsize = FLAGS.zsize
     batch_size = FLAGS.batch_size
-
+    
+    criterion = nn.BCELoss()
+    
     # Optimizers
 
     d_opt = optim.Adam(D.parameters(), lr=dlr, betas=(beta1, beta2))
