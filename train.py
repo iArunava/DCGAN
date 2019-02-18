@@ -5,6 +5,7 @@ def train(FLAGS):
     p_every = FLAGS.p_every
     t_every = FLAGS.t_every
     e_every = FLAGS.e_every
+    s_every = FLAGS.s_every
     epochs = FLAGS.epochs
     dlr = FLAGS.dlr
     glr = FLAGS.glr
@@ -21,95 +22,81 @@ def train(FLAGS):
     # Train loop
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    p_every = 80
-    t_every = 1
-    e_every = 1
-    epochs = 100
-
     train_losses = []
-eval_losses = []
+    eval_losses = []
 
-#dcgan = dcgan.to(device)
-D = D.to(device)
-G = G.to(device)
+    #dcgan = dcgan.to(device)
+    D = D.to(device)
+    G = G.to(device)
 
-#dcgan.train()
-D.train()
-G.train()
+    for e in range(epochs):
 
-for e in range(epochs):
-    
-    td_loss = 0
-    tg_loss = 0
-    
-    for batch_i, (real_images, _) in enumerate(trainloader):
-        
-        # Scaling image to be between -1 and 1
-        real_images = scale(real_images)
-        
-        real_images = real_images.to(device)
-        
-        batch_size = real_images.size(0)
-        
-        #### Train the Discriminator ####
-        
-        d_opt.zero_grad()
+        td_loss = 0
+        tg_loss = 0
 
-        #d_fake, d_real = dcgan(real_images, z)
-        
-        #print (real_images.shape)
-        d_real = D(real_images)
-        r_loss = real_loss(d_real, smooth=True, device=device)
-        
-        
-        z = np.random.normal(loc=0, scale=0.02, size=(batch_size, z_size))
-        z = torch.from_numpy(z).float().to(device)
-        
-        fake_images = G(z)
-        
-        d_fake = D(fake_images)
-        
-        f_loss = fake_loss(d_fake)
-        
-        d_loss = r_loss + f_loss
-        
-        td_loss += d_loss.item()
-        
-        d_loss.backward()
-        d_opt.step()
-        
-        
-        #### Train the Generator ####
-        g_opt.zero_grad()
-        
-        z = np.random.normal(loc=0, scale=0.02, size=(batch_size, z_size))
-        z = torch.from_numpy(z).float().to(device)
-        
-        fake_images = G(z)
-        d_fake = D(fake_images)
-        
-        g_loss = real_loss(d_fake, device=device)
-        
-        tg_loss += g_loss.item()
-        
-        g_loss.backward()
-        g_opt.step()
-        
-        if batch_i % p_every == 0:
-            print ('Epoch [{:5d} / {:5d}] | d_loss: {:6.4f} | g_loss: {:6.4f}'. \
-                    format(e+1, epochs, d_loss, g_loss))
+        for batch_i, (real_images, _) in enumerate(trainloader):
+
+            real_images = real_images.to(device)
+
+            batch_size = real_images.size(0)
+
+            #### Train the Discriminator ####
+
+            d_opt.zero_grad()
+
+            d_real = dis(real_images)
+
+            label = torch.full((batch_size,), real_label, device=device)
+            r_loss = criterion(d_real, label)
+            r_loss.backward()
+
+            z = torch.randn(batch_size, z_size, 1, 1, device=device)
             
-    train_losses.append([td_loss, tg_loss])
-    
-    if e % e_every:
-        with torch.no_grad():
-            G.eval()
-            z = np.random.uniform(-1, 1, size=(batch_size, z_size))
-            z = torch.from_numpy(z).float().to(device)
-            d_fake = dcgan(None, z)
-            e_loss = real_loss(d_fake)
-        G.train()
-        
-        eval_losses.append(e_loss)
+            fake_images = gen(z)
 
-print ('[INFO] Training Completed successfully!')
+            label.fill_(fake_label)
+
+            d_fake = dis(fake_images.detach())
+
+            f_loss = criterion(d_fake, label)
+            f_loss.backward()
+
+            d_loss = r_loss + f_loss
+
+            d_opt.step()
+
+
+            #### Train the Generator ####
+            g_opt.zero_grad()
+
+            label.fill_(real_label)
+            d_fake2 = dis(fake_images)
+
+            g_loss = criterion(d_fake2, label)
+            g_loss.backward()
+
+            g_opt.step()
+
+            if batch_i % p_every == 0:
+                print ('Epoch [{:5d} / {:5d}] | d_loss: {:6.4f} | g_loss: {:6.4f}'. \
+                        format(e+1, epochs, d_loss, g_loss))
+
+        train_losses.append([td_loss, tg_loss])
+
+        if e % s_every == 0:
+            d_ckpt = {
+                'model_state_dict' : dis.state_dict(),
+                'opt_state_dict' : d_opt.state_dict()
+            }
+
+            g_ckpt = {
+                'model_state_dict' : gen.state_dict(),
+                'opt_state_dict' : g_opt.state_dict()
+            }
+
+            torch.save(d_ckpt, 'd-nm-{}.pth'.format(e))
+            torch.save(g_ckpt, 'g-nm-{}.pth'.format(e))
+
+        utils.save_image(fake_images.detach(), 'fake_{}.png'.format(e), normalize=True)
+
+    print ('[INFO] Training Completed successfully!')
