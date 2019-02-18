@@ -10,8 +10,8 @@
 ####################################################################
 
 class Generator(nn.Module):
-    def __init__(self, ct1_channels=1024, ct2_channels=512,
-                 ct3_channels=256, ct4_channels=128, d_channels_in_2=True):
+    def __init__(self, ct1_channels=512, ct2_channels=256,
+                 ct3_channels=128, ct4_channels=64, d_channels_in_2=False):
         
         '''
         The contructor class for the Generator
@@ -50,7 +50,16 @@ class Generator(nn.Module):
             self.ct2_channels = ct2_channels
             self.ct3_channels = ct3_channels
             self.ct4_channels = ct4_channels
-            
+        
+        self.convt_0 = nn.ConvTranspose2d(in_channels=z_size,
+                                          out_channels=self.ct1_channels,
+                                          kernel_size=4,
+                                          padding=0,
+                                          stride=1,
+                                          bias=False)
+        
+        self.bnorm0 = nn.BatchNorm2d(self.ct1_channels)
+        
         self.convt_1 = nn.ConvTranspose2d(in_channels=self.ct1_channels,
                                           out_channels=self.ct2_channels,
                                           kernel_size=4,
@@ -85,7 +94,6 @@ class Generator(nn.Module):
                                           padding=1,
                                           bias=False)
         
-        self.fc1 = nn.Linear(z_size, self.pheight * self.pwidth * self.ct1_channels)
         self.relu = nn.ReLU()
         self.tanh = nn.Tanh()
         
@@ -101,17 +109,11 @@ class Generator(nn.Module):
         '''
         
         # Project the input z and reshape
-        z = self.fc1(z)
-        z = z.view(-1, self.ct1_channels, self.pheight, self.pwidth)
-        
-        #print (z.size())
-        
-        x = self.relu(self.bnorm1(self.convt_1(z)))
-        #print (x.size())
+        x = self.relu(self.bnorm0(self.convt_0(z)))
+        #print (x.shape)
+        x = self.relu(self.bnorm1(self.convt_1(x)))
         x = self.relu(self.bnorm2(self.convt_2(x)))
-        #print (x.size())
         x = self.relu(self.bnorm3(self.convt_3(x)))
-        #print (x.size())
         out = self.tanh(self.convt_4(x))
         
         return out
