@@ -31,6 +31,8 @@ cd DCGAN/
 
 4. Faces Dataset
 
+![fake_41_faces](https://user-images.githubusercontent.com/26242097/52947263-38100700-339c-11e9-966a-f79e407f0909.png)
+
 5. Stanford Cars Dataset
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
