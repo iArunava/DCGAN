@@ -43,7 +43,7 @@ cd DCGAN/
 
 1. Generator trained on the Stanford Cars Dataset for 100 epochs: [100 epoch trained Generator](http://bit.ly/g-100-cars)
 
-2. Generator trained on the Oxford Flowers Dataset for 200 epochs: [100 epoch trained Generator](https://drive.google.com/file/d/1b-kGxNB4j2ummU9hUE959ew-EL2mYJP7/view?usp=drivesdk)
+2. Generator trained on the Oxford Flowers Dataset for 300 epochs: [300 epoch trained Generator](https://drive.google.com/file/d/1b-kGxNB4j2ummU9hUE959ew-EL2mYJP7/view?usp=drivesdk)
 
 ## License
 
