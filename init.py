@@ -80,6 +80,11 @@ if __name__ == '__main__':
             type=int,
             default=50,
             help='To print loss and other stats at an interval of x epochs')
+    
+    parser.add_argument('-se', '--s-every',
+            type=int,
+            default=50,
+            help='To save after an interval of x epochs')
 
     parser.add_argument('-es', '--eval-size',
             type=int,
