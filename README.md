@@ -23,7 +23,7 @@ cd DCGAN/
 
 1. STL10 (Epochs: 100)
 
-![dcgan](https://user-images.githubusercontent.com/26242097/52493917-aca3b280-2bf2-11e9-95a5-aa68704f1d8e.png)
+![dcgan]()
 
 2. CIFAR10 
 
