@@ -1,3 +1,6 @@
+./datasets/flowers/
+./datasets/cars/
+*.tgz
 *.swp
 
 # Byte-compiled / optimized / DLL files

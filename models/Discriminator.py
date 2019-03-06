@@ -1,8 +1,5 @@
-# Discriminator
-
-# Discriminator
-
-# Probably a VGG16 or VGG19 for Simple Image Classification pretrained on ImageNet
+import torch
+import torch.nn as nn
 
 class Discriminator(nn.Module):
     
@@ -26,7 +23,7 @@ class Discriminator(nn.Module):
                         in each layer.
         '''
         
-        super().__init__()
+        super(Discriminator, self).__init__()
         
         # Define the class variables
         self.c1_channels = c1_channels

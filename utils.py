@@ -20,3 +20,19 @@ def view_one_random(gen):
     plt.axis('off')
     plt.imshow(out)
     plt.show()
+
+def init_weight(m):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        m.weight.data.normal_(0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        m.weight.data.normal_(0.1, 0.02)
+        m
+
+def init_weight(m):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        m.weight.data.normal_(0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        m.weight.data.normal_(0.1, 0.02)
+        m.bias.data.fill_(0)

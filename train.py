@@ -1,25 +1,70 @@
-from Loss import *
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import subprocess
+import os
+
+from models.Discriminator import Discriminator
+from models.Generator import Generator
+from utils import init_weight
+from torchvision import transforms, datasets
+from torch.utils.data import DataLoader
 
 def train(FLAGS):
     # Define the hyperparameters
     p_every = FLAGS.p_every
-    t_every = FLAGS.t_every
-    e_every = FLAGS.e_every
     s_every = FLAGS.s_every
     epochs = FLAGS.epochs
     dlr = FLAGS.dlr
     glr = FLAGS.glr
     beta1 = FLAGS.beta1
     beta2 = FLAGS.beta2
-    zsize = FLAGS.zsize
+    z_size = FLAGS.zsize
     batch_size = FLAGS.batch_size
+    rh = FLAGS.resize_height
+    rw = FLAGS.resize_width
+    d_path = FLAGS.dataset_path
+    d_type = FLAGS.dataset_type
     
+    # Preprocessing Data
+    transform = transforms.Compose([transforms.Resize((rh, rw)), 
+                                transforms.ToTensor(), 
+                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+                    ])
+    
+    if FLAGS.dataset_path == None:
+        if d_type == "cars":
+            if not os.path.exists('./datasets/cars_train'):
+                os.system('sh ./datasets/dload.sh cars')
+            d_path = './datasets/cars_train/'
+
+        elif d_type == "flowers":
+            if not os.path.exists('./datasets/flowers/'):
+                os.system('sh ./datasets/dload.sh flowers')
+            d_path = './datasets/flowers/'
+
+        elif d_type == "dogs":
+            if not os.path.exists('./datasets/jpg'):
+                os.system('sh ./datasets/dload.sh dogs')
+            d_path = './datasets/jpg/'
+            
+    train_data = datasets.ImageFolder(d_path, transform=transform)
+    trainloader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
+
+    # Define the D and G
+    dis = Discriminator(64)
+    gen = Generator()
+
+    # Apply weight initialization
+    dis.apply(init_weight)
+    gen.apply(init_weight)
+
+    # Define the loss function
     criterion = nn.BCELoss()
     
     # Optimizers
-
-    d_opt = optim.Adam(D.parameters(), lr=dlr, betas=(beta1, beta2))
-    g_opt = optim.Adam(G.parameters(), lr=glr, betas=(beta1, beta2))
+    d_opt = optim.Adam(dis.parameters(), lr=dlr, betas=(beta1, beta2))
+    g_opt = optim.Adam(gen.parameters(), lr=glr, betas=(beta1, beta2))
 
     # Train loop
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -27,9 +72,11 @@ def train(FLAGS):
     train_losses = []
     eval_losses = []
 
-    #dcgan = dcgan.to(device)
-    D = D.to(device)
-    G = G.to(device)
+    dis.to(device)
+    gen.to(device)
+    
+    real_label = 1
+    fake_label = 0
 
     for e in range(epochs):
 
@@ -45,7 +92,7 @@ def train(FLAGS):
             #### Train the Discriminator ####
 
             d_opt.zero_grad()
-
+            
             d_real = dis(real_images)
 
             label = torch.full((batch_size,), real_label, device=device)

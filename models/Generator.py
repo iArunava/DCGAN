@@ -9,9 +9,12 @@
 #								   #
 ####################################################################
 
+import torch
+import torch.nn as nn
+
 class Generator(nn.Module):
     def __init__(self, ct1_channels=512, ct2_channels=256,
-                 ct3_channels=128, ct4_channels=64, d_channels_in_2=False):
+                 ct3_channels=128, ct4_channels=64, d_channels_in_2=False, z_size=100):
         
         '''
         The contructor class for the Generator
