@@ -17,7 +17,26 @@ git clone https://github.com/iArunava/DCGAN.git
 cd DCGAN/
 ```
 
-1. [Upcoming]
+1. Start training the model
+```
+# To train the model of the Oxford Flowers Dataset
+python3 init.py --mode train -dt flowers
+
+
+# To train the model of the Stanford Cars Dataset
+python3 init.py --mode train -dt cars
+
+
+# To train the model of the Dogs Dataset
+python3 init.py --mode train -dt dogs
+```
+
+2. Test the model using pretrained model
+```
+python3 init.py --mode predict -gpath /path/to/pretrained/generator/model.pth
+```
+Note: You can download the pretrained model, the links are available in the readme of the flowers, cars directories under 
+results directories.
 
 ## Samples generated using DCGAN
 
