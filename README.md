@@ -21,23 +21,15 @@ cd DCGAN/
 
 ## Samples generated using DCGAN
 
-1. STL10 (Epochs: 100)
-
-![dcgan]()
-
-2. CIFAR10 
-
-3. Stanford Dogs Dataset
-
-4. Faces Dataset
+1. Faces Dataset
 
 ![fake_41_faces](https://user-images.githubusercontent.com/26242097/52947263-38100700-339c-11e9-966a-f79e407f0909.png)
 
-5. Stanford Cars Dataset
+2. Stanford Cars Dataset
 
 ![Epoch 100](https://github.com/iArunava/DCGAN/blob/master/results/cars/fake_99.png)
 
-6. Oxford Flowers Dataset
+3. Oxford Flowers Dataset
 
 ![Epoch 200](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_99%20(2).png)
 
