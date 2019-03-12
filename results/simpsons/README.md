@@ -1,6 +1,10 @@
-## These results are generated from the Simpsons faces dataset, which can be found here: https://www.kaggle.com/kostastokis/simpsons-faces
+### These results are generated from the Simpsons faces dataset, which can be found here: https://www.kaggle.com/kostastokis/simpsons-faces
 
-## The Pretrained model can be found here: https://www.dropbox.com/s/49sejsd1g5h6c4q/g-nm-99.pth?dl=1
+**The Pretrained model can be found here: **
+
+https://www.dropbox.com/s/49sejsd1g5h6c4q/g-nm-99.pth?dl=1
+
+_**NOTE - These images are originally of 200x200 images but were resized to 64x64**_
 
 ### Epoch 0
 
