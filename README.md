@@ -52,11 +52,19 @@ results directories.
 
 ![Epoch 200](https://github.com/iArunava/DCGAN/blob/master/results/flowers/fake_99%20(2).png)
 
+4. Simpsons Faces
+
+![fake_99 (2)](https://user-images.githubusercontent.com/26242097/54181048-4f39a480-44c3-11e9-852a-8c1d944a943d.png)
+
+<small> The images were resized to 64x64 before training </small>
+
 ## Pretrained models
 
 1. Generator trained on the Stanford Cars Dataset for 100 epochs: [100 epoch trained Generator](http://bit.ly/g-100-cars)
 
 2. Generator trained on the Oxford Flowers Dataset for 300 epochs: [300 epoch trained Generator](https://drive.google.com/file/d/1b-kGxNB4j2ummU9hUE959ew-EL2mYJP7/view?usp=drivesdk)
+
+3. Generator trained on the Simpsons Faces Dataset for 300 epochs: [300 epoch trained Generator](https://www.dropbox.com/s/49sejsd1g5h6c4q/g-nm-99.pth?dl=1)
 
 ## License
 
