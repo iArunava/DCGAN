@@ -27,7 +27,7 @@ def init_weight(m):
         m.weight.data.normal_(0.0, 0.02)
     elif classname.find('BatchNorm') != -1:
         m.weight.data.normal_(0.1, 0.02)
-        m
+        m.bias.data.constant_(1)
 
 def init_weight(m):
     classname = m.__class__.__name__
