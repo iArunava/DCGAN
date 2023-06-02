@@ -3,7 +3,7 @@ import argparse
 from train import train
 from generate import generate
 import torch.optim as optim
-import torchvision.transforms as trasnforms
+import torchvision.transforms as transforms
 from torch.utils import *
 import torch.nn.functional as F
 import pickle as pkl
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     parser.add_argument('-dhid',
             type=int,
             default=128,
-            help='The number of input neurons to the discriminator')
+            help='The number of hidden neurons in the discriminator')
 
     parser.add_argument('-dout',
             type=int,
@@ -87,12 +87,12 @@ if __name__ == '__main__':
     parser.add_argument('-b1', '--beta1',
             type=float,
             default=0.5,
-            help='The  value of beta 1')
+            help='The value of beta 1')
 
     parser.add_argument('-b2', '--beta2',
             type=float,
             default=0.999,
-            help='The  value of beta 2')
+            help='The value of beta 2')
 
     parser.add_argument('-rh', '--resize-height',
             type=int,
@@ -123,7 +123,7 @@ if __name__ == '__main__':
             type=str,
             default='predict',
             choices=['train', 'predict'],
-            help='The mode whether to train or test')
+            help='The mode whether to train or predict')
 
     parser.add_argument('-dpath',
             type=str,
@@ -135,12 +135,12 @@ if __name__ == '__main__':
 
     parser.add_argument('-d', '--dataset-path',
             type=str,
-            help='The dataset to use')
+            help='The dataset path to use')
 
     parser.add_argument('-dt', '--dataset-type',
             type=str,
             default='cars',
-            help='The dataset to use')
+            help='The dataset type to use')
 
     FLAGS, unparsed = parser.parse_known_args()
 
@@ -160,4 +160,4 @@ if __name__ == '__main__':
         generate(FLAGS)
     else:
         raise RuntimeError('Invalid value passed for mode. \
-                Valid arguments are: "train" and "test"')
+                Valid arguments are: "train" and "predict"')
